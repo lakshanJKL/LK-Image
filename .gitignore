@@ -1,0 +1,7 @@
+#Nodejs
+node_modules/
+.env
+
+#Drizzle
+drizzle/
+drizzle.config.ts
