@@ -5,16 +5,14 @@ interface jwtPayload{
     email:string
 }
 
+const secret:any = process.env.SECRET_KEY;
 
-const secretKey = process.env.SECRET_KEY;
+const authMiddleware =  (req:Request,res:Response,next:NextFunction):any =>{
 
-const authMiddleware = (req:Request,res:Response,next:NextFunction)=>{
-
-    console.log("Request Path:", req.path);
-    
-    if(req.path == "/users/login" || req.path == "/users/signup"){
-      return next();
-    }
+    // console.log("Request Path:", req.path);
+    // if(req.path == "/users/login" || req.path == "/users/signup"){
+    //   return next();
+    // }
 
     const authHeader = req.headers["authorization"];
     console.log("authorization : ",authHeader);
@@ -27,7 +25,7 @@ const authMiddleware = (req:Request,res:Response,next:NextFunction)=>{
 
     try{
 
-      const decodedValue = jwt.verify(token,secretKey) as jwtPayload;
+      const decodedValue = jwt.verify(token,secret);
       (req as any).user = decodedValue;
       next();
 

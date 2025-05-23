@@ -1,9 +1,10 @@
 import {NextFunction, Request,Response} from 'express';
 import * as userService from '../services/userService';
 
-export const login = async (req:Request,res:Response,next:NextFunction)=>{
+/*  user login */
+export const login = async (req:Request,res:Response,next:NextFunction):Promise<any> => {
   try{
-    
+
     const userData = req.body;
     const token = await userService.userLogin(userData);
     return res
@@ -11,11 +12,12 @@ export const login = async (req:Request,res:Response,next:NextFunction)=>{
            .send({status:true,data:token,message:"user logged in"});
 
   }catch(e){
-    return next(e)
+    return next(e);
   }
 }
 
-export const signup = async (req:Request,res:Response,next:NextFunction)=>{
+/* new user signup */
+export const signup = async (req:Request,res:Response,next:NextFunction):Promise<any> => {
   try{
 
    const userData = req.body;

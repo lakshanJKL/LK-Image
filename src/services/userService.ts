@@ -5,10 +5,11 @@ import {hashPassword,comparePassword} from '../util/bcrypt';
 import {eq} from 'drizzle-orm';
 import jwt from 'jsonwebtoken';
 
-const secretKey = process.env.SECRET_KEY;
+const secret:any = process.env.SECRET_KEY;
 
 export const userLogin = async (userData:any)=>{
 
+       // find the user
        const selectedUser =  await db.select().from(user).where(eq(user.email,userData.email));
 
        if(selectedUser.length === 0){
@@ -27,12 +28,13 @@ export const userLogin = async (userData:any)=>{
        }
 
        // create new token
-       const token =  jwt.sign({email:selectedUser[0].email},secretKey,{expiresIn:"5h"});
+       const token =  jwt.sign({email:selectedUser[0].email},secret,{expiresIn:"5h"});
        return {status:true,data:token};
 }
 
 export const createUser = async (userData:any)=>{
-  
+
+      // find the user
       const selectedUser = await db.select().from(user).where(eq(user.email,userData.email));
 
       if(selectedUser.length > 0){
@@ -42,13 +44,13 @@ export const createUser = async (userData:any)=>{
         }
 
       // Generate UUID
-      const id = uuidv4();
+      const uuid = uuidv4();
 
       // hash password
       const password = await hashPassword(userData.password);
       
       const newUser = await db.insert(user).values({
-        id,
+        id:uuid,
         firstName:userData.firstName,
         lastName:userData.lastName,
         email:userData.email,
