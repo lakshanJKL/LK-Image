@@ -65,7 +65,7 @@ export const getImageById = async(req:Request,res:Response,next:NextFunction):Pr
   }
 }
 
-/*  delete image by id */
+/*  delete image by id  */
 export const deleteImageById = async(req:Request,res:Response,next:NextFunction):Promise<any>=>{
    
   try{
